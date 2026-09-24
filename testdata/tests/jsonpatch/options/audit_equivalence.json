@@ -1,0 +1,18 @@
+[
+    {
+        "name": "equivalence repeated elements are a multiset",
+        "before": ["x", "x", "y"],
+        "after": ["x", "y", "y"],
+        "patch": [
+            { "op": "replace", "path": "/1", "value": "y" }
+        ]
+    },
+    {
+        "name": "equivalence true permutation of repeated elements",
+        "before": ["x", "x", "a"],
+        "after": ["a", "x", "x"],
+        "patch": [],
+        "options": ["equivalent"],
+        "skip_apply_test": true
+    }
+]

@@ -2,6 +2,7 @@ package jsondiff
 
 import (
 	"encoding/binary"
+	"encoding/json"
 	"hash/maphash"
 	"math"
 	"slices"
@@ -32,11 +33,21 @@ func (h *hasher) hash(i interface{}, sort bool) {
 		var buf [8]byte
 		binary.BigEndian.PutUint64(buf[:], math.Float64bits(v))
 		_, _ = h.mh.Write(buf[:])
+	case json.Number:
+		// json.Number values originate from a custom unmarshal
+		// function (Decoder.UseNumber). Each textual representation
+		// must produce a distinct digest, otherwise 1, 1.0 and 1e0
+		// would all collide and be treated as equivalent.
+		_, _ = h.mh.WriteString(v.String())
 	case nil:
 		_ = h.mh.WriteByte('0')
 	case []interface{}:
 		if sort {
-			h.sortArray(v)
+			// Sort a shallow copy: hashing must never mutate the
+			// caller-provided source or target document.
+			cp := append([]interface{}(nil), v...)
+			h.sortArray(cp)
+			v = cp
 		}
 		for _, e := range v {
 			h.hash(e, sort)

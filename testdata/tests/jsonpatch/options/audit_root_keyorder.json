@@ -1,0 +1,32 @@
+[
+    {
+        "name": "object key reorder is a no-op",
+        "before": { "z": 1, "a": 2, "m": 3 },
+        "after": { "a": 2, "m": 3, "z": 1 },
+        "patch": []
+    },
+    {
+        "name": "object key reorder with edit keeps sorted operation order",
+        "before": { "z": 1, "a": 2, "m": 3 },
+        "after": { "m": 30, "z": 1, "a": 2 },
+        "patch": [
+            { "op": "replace", "path": "/m", "value": 30 }
+        ]
+    },
+    {
+        "name": "root replacement of incomparable documents",
+        "before": [1, 2, 3],
+        "after": { "a": 1 },
+        "patch": [
+            { "op": "add", "path": "", "value": { "a": 1 } }
+        ]
+    },
+    {
+        "name": "root replacement of scalar documents",
+        "before": 1,
+        "after": "two",
+        "patch": [
+            { "op": "add", "path": "", "value": "two" }
+        ]
+    }
+]

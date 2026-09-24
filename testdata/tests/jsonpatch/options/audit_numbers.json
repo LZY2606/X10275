@@ -1,0 +1,24 @@
+[
+    {
+        "name": "number representation 1 vs 1.0 is equal after normalize",
+        "before": { "n": 1 },
+        "after": { "n": 1.0 },
+        "patch": []
+    },
+    {
+        "name": "number representation kept distinct with json.Number unmarshal",
+        "before": [1, 2],
+        "after": [2, 1],
+        "patch": [],
+        "options": ["equivalent", "use_number"]
+    },
+    {
+        "name": "number representation json.Number distinguishes repeated digits",
+        "before": [1, 2],
+        "after": [1, 1],
+        "patch": [
+            { "op": "replace", "path": "/1", "value": 1 }
+        ],
+        "options": ["equivalent", "use_number"]
+    }
+]

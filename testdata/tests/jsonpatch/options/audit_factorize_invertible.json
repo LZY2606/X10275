@@ -1,0 +1,48 @@
+[
+    {
+        "name": "factorize emits move for relocated value",
+        "before": [{"id": 1}, {"id": 2}],
+        "after": [{"id": 2}, {"id": 1}],
+        "patch": [
+            { "op": "move", "from": "/0", "path": "/1" }
+        ],
+        "options": ["factorize", "lcs"]
+    },
+    {
+        "name": "factorize emits copy for unchanged reused value",
+        "before": { "a": { "k": 1 } },
+        "after": { "a": { "k": 1 }, "b": { "k": 1 } },
+        "patch": [
+            { "op": "copy", "from": "/a", "path": "/b" }
+        ],
+        "options": ["factorize"]
+    },
+    {
+        "name": "invertible disables copy in favor of add",
+        "before": { "a": { "k": 1 } },
+        "after": { "a": { "k": 1 }, "b": { "k": 1 } },
+        "patch": [
+            { "op": "add", "path": "/b", "value": { "k": 1 } }
+        ],
+        "options": ["factorize", "invertible"]
+    },
+    {
+        "name": "invertible precedes replace with test",
+        "before": { "a": 1 },
+        "after": { "a": 2 },
+        "patch": [
+            { "op": "test", "path": "/a", "value": 1 },
+            { "op": "replace", "path": "/a", "value": 2 }
+        ],
+        "options": ["invertible"]
+    },
+    {
+        "name": "rationalize collapses small ops into one replace",
+        "before": { "o": { "a": 1, "b": 2, "c": 3 } },
+        "after": { "o": { "a": 9, "b": 8, "c": 7 } },
+        "patch": [
+            { "op": "replace", "path": "/o", "value": { "a": 9, "b": 8, "c": 7 } }
+        ],
+        "options": ["rationalize", "skip_compact"]
+    }
+]

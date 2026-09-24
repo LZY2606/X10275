@@ -440,24 +440,29 @@ func (d *Differ) unorderedDeepEqualSlice(src, tgt []interface{}) bool {
 	if len(src) != len(tgt) {
 		return false
 	}
-	diff := make(map[uint64]struct{}, len(src))
-	count := 0
-
+	// The elements are compared as multisets rather than sets,
+	// otherwise arrays with repeated but differently distributed
+	// elements (e.g. ["x","x","y"] vs ["x","y","y"]) would be
+	// wrongly considered equivalent.
+	diff := make(map[uint64]int, len(src))
 	for _, v := range src {
 		k := d.hasher.digest(v, d.opts.equivalent)
-		diff[k] = struct{}{}
-		count++
+		diff[k]++
 	}
 	for _, v := range tgt {
 		k := d.hasher.digest(v, d.opts.equivalent)
-		// If the digest hash is not in the comparison set,
-		// return early.
-		if _, ok := diff[k]; !ok {
+		n, ok := diff[k]
+		if !ok || n == 0 {
 			return false
 		}
-		count--
+		diff[k] = n - 1
 	}
-	return count == 0
+	for _, n := range diff {
+		if n != 0 {
+			return false
+		}
+	}
+	return true
 }
 
 func (d *Differ) replace(path string, src, tgt interface{}, doc string) {

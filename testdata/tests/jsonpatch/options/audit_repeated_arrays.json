@@ -1,0 +1,30 @@
+[
+    {
+        "name": "repeated array elements positional algorithm",
+        "before": ["a", "x", "b"],
+        "after": ["x", "a", "b"],
+        "patch": [
+            { "op": "replace", "path": "/0", "value": "x" },
+            { "op": "replace", "path": "/1", "value": "a" }
+        ]
+    },
+    {
+        "name": "repeated array elements lcs algorithm",
+        "before": ["a", "x", "b"],
+        "after": ["x", "a", "b"],
+        "patch": [
+            { "op": "remove", "path": "/0" },
+            { "op": "add", "path": "/1", "value": "a" }
+        ],
+        "options": ["lcs"]
+    },
+    {
+        "name": "repeated array elements factorized lcs move",
+        "before": ["a", "x", "b"],
+        "after": ["x", "a", "b"],
+        "patch": [
+            { "op": "move", "from": "/0", "path": "/1" }
+        ],
+        "options": ["lcs", "factorize"]
+    }
+]

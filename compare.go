@@ -46,13 +46,23 @@ func CompareWithoutMarshal(source, target interface{}, opts ...Option) (patch Pa
 	return patch, err
 }
 
-func compare(d *Differ, src, tgt interface{}) (Patch, error) {
+func compare(d *Differ, src, tgt interface{}) (patch Patch, err error) {
 	if d.opts.marshal == nil {
 		d.opts.marshal = json.Marshal
 	}
 	if d.opts.unmarshal == nil {
 		d.opts.unmarshal = json.Unmarshal
 	}
+	defer func() {
+		if r := recover(); r != nil {
+			if e, ok := r.(invalidJSONTypeError); ok {
+				err = fmt.Errorf("jsondiff: invalid json type: %T", e.t)
+				patch = nil
+				return
+			}
+			panic(r)
+		}
+	}()
 	si, _, err := marshalUnmarshal(src, d.opts)
 	if err != nil {
 		return nil, err
@@ -67,10 +77,20 @@ func compare(d *Differ, src, tgt interface{}) (Patch, error) {
 	return d.patch, nil
 }
 
-func compareJSON(d *Differ, src, tgt []byte, unmarshal unmarshalFunc) (Patch, error) {
+func compareJSON(d *Differ, src, tgt []byte, unmarshal unmarshalFunc) (patch Patch, err error) {
 	if unmarshal == nil {
 		unmarshal = json.Unmarshal
 	}
+	defer func() {
+		if r := recover(); r != nil {
+			if e, ok := r.(invalidJSONTypeError); ok {
+				err = fmt.Errorf("jsondiff: invalid json type: %T", e.t)
+				patch = nil
+				return
+			}
+			panic(r)
+		}
+	}()
 	var si, ti interface{}
 	if err := unmarshal(src, &si); err != nil {
 		return nil, err
