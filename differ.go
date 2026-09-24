@@ -47,6 +47,7 @@ type jsonNode struct {
 func (d *Differ) Reset() {
 	d.patch = d.patch[:0]
 	d.ptr.reset()
+	d.snapshotPatchLen = 0
 
 	// Optimized map clear.
 	for k := range d.hashmap {
