@@ -1,0 +1,22 @@
+[{
+    "name": "removed then added equal value becomes a move",
+    "before": { "a": "b" },
+    "after": { "c": "b" },
+    "patch": [
+        { "op": "move", "from": "/a", "path": "/c" }
+    ]
+}, {
+    "name": "value present at an unchanged node is copied",
+    "before": { "a": [1, 2, 3] },
+    "after": { "a": [1, 2, 3], "d": [1, 2, 3] },
+    "patch": [
+        { "op": "copy", "from": "/a", "path": "/d" }
+    ]
+}, {
+    "name": "duplicate element appended copies an existing array element",
+    "before": ["foo", "bar"],
+    "after": ["foo", "bar", "foo"],
+    "patch": [
+        { "op": "copy", "from": "/0", "path": "/-" }
+    ]
+}]

@@ -1,0 +1,46 @@
+[{
+    "name": "duplicate array elements collapse with repeated index removes",
+    "before": ["x", "y", "x"],
+    "after": ["x"],
+    "patch": [
+        { "op": "remove", "path": "/1" },
+        { "op": "remove", "path": "/1" }
+    ]
+}, {
+    "name": "duplicate array elements permuted are replaced by index",
+    "before": ["a", "b", "a"],
+    "after": ["b", "a", "a"],
+    "patch": [
+        { "op": "replace", "path": "/0", "value": "b" },
+        { "op": "replace", "path": "/1", "value": "a" }
+    ]
+}, {
+    "name": "number representations 1 and 1.0 normalize to the same value",
+    "before": 1,
+    "after": 1.0,
+    "patch": []
+}, {
+    "name": "integers beyond float64 precision normalize to the same value",
+    "before": 9007199254740993,
+    "after": 9007199254740992,
+    "patch": []
+}, {
+    "name": "object key reordering produces no operation",
+    "before": { "b": 1, "a": 2 },
+    "after": { "a": 2, "b": 1 },
+    "patch": []
+}, {
+    "name": "root node replacement array to object",
+    "before": ["a", "b"],
+    "after": { "a": "AAA", "b": "BBB" },
+    "patch": [
+        { "op": "add", "path": "", "value": { "a": "AAA", "b": "BBB" } }
+    ]
+}, {
+    "name": "root node replacement object to array",
+    "before": { "a": "foo" },
+    "after": ["foo"],
+    "patch": [
+        { "op": "add", "path": "", "value": ["foo"] }
+    ]
+}]

@@ -1,0 +1,16 @@
+[{
+    "name": "duplicate elements permuted are expressed as one move under LCS",
+    "before": ["a", "b", "a"],
+    "after": ["b", "a", "a"],
+    "patch": [
+        { "op": "move", "from": "/0", "path": "/1" }
+    ]
+}, {
+    "name": "duplicate elements removed collapse to repeated index zero removes under LCS",
+    "before": ["x", "y", "x"],
+    "after": ["x"],
+    "patch": [
+        { "op": "remove", "path": "/0" },
+        { "op": "remove", "path": "/0" }
+    ]
+}]
