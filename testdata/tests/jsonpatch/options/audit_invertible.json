@@ -1,0 +1,13 @@
+[
+  {
+    "name": "test operations precede replace and remove",
+    "before": { "a": 1, "b": 2 },
+    "after": { "a": 9 },
+    "patch": [
+      { "op": "test", "path": "/a", "value": 1 },
+      { "op": "replace", "path": "/a", "value": 9 },
+      { "op": "test", "path": "/b", "value": 2 },
+      { "op": "remove", "path": "/b" }
+    ]
+  }
+]

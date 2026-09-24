@@ -1,0 +1,55 @@
+[
+  {
+    "name": "duplicate array elements, replacement",
+    "before": [1, 1, 2],
+    "after": [1, 2, 2],
+    "patch": [
+      { "op": "replace", "path": "/1", "value": 2 }
+    ]
+  },
+  {
+    "name": "duplicate array elements, tail removal",
+    "before": [1, 1, 2, 2],
+    "after": [1, 1],
+    "patch": [
+      { "op": "remove", "path": "/2" },
+      { "op": "remove", "path": "/2" }
+    ]
+  },
+  {
+    "name": "number representation, integral float",
+    "before": { "n": 1 },
+    "after": { "n": 1.0 },
+    "patch": []
+  },
+  {
+    "name": "object key reorder",
+    "before": { "b": 2, "a": 1 },
+    "after": { "a": 1, "b": 2 },
+    "patch": []
+  },
+  {
+    "name": "root replacement, object to array",
+    "before": { "a": 1 },
+    "after": [1, 2, 3],
+    "patch": [
+      { "op": "add", "path": "", "value": [1, 2, 3] }
+    ]
+  },
+  {
+    "name": "root replacement, scalar to object",
+    "before": 1,
+    "after": { "a": 1 },
+    "patch": [
+      { "op": "add", "path": "", "value": { "a": 1 } }
+    ]
+  },
+  {
+    "name": "nested duplicate array elements",
+    "before": { "list": ["a", "a", "b"] },
+    "after": { "list": ["a", "b", "b"] },
+    "patch": [
+      { "op": "replace", "path": "/list/1", "value": "b" }
+    ]
+  }
+]
