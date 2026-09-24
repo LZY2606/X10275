@@ -1,0 +1,137 @@
+[{
+    "name": "null values",
+    "before": null,
+    "after": null
+},{
+    "name": "comparable, unequal values",
+    "before": 42,
+    "after": "82",
+    "patch": [
+        { "op": "add", "path": "", "value": "82" }
+    ]
+},{
+    "name": "incomparable values, unequal values",
+    "before": [
+        "a",
+        "b"
+    ],
+    "after": {
+        "a": "AAA",
+        "b": "BBB"
+    },
+    "patch": [
+        { "op": "add", "path": "", "value": { "a": "AAA", "b": "BBB" } }
+    ]
+},{
+    "name": "similar element is copied instead of added (object key)",
+    "before": {
+        "a": [
+            1, 2, 3
+        ]
+    },
+    "after": {
+        "a": [
+            1, 2, 3
+        ],
+        "d": [
+            1, 2, 3
+        ]
+    },
+    "patch": [
+        { "op": "copy", "from": "/a", "path": "/d" }
+    ]
+}, {
+    "name": "similar element is copied instead of added (array index)",
+    "before": [
+        "foo", "bar"
+    ],
+    "after": [
+        "foo", "bar", "foo"
+    ],
+    "patch": [
+        { "op": "copy", "from": "/0", "path": "/-" }
+    ]
+}, {
+    "name": "similar element removed then added is moved instead",
+    "before": {
+        "a": "b"
+    },
+    "after": {
+        "c": "b"
+    },
+    "patch": [
+        { "op": "move", "from": "/a", "path": "/c" }
+    ]
+}, {
+    "name": "readme example",
+    "before": {
+        "a": [
+            1, 2, 3
+        ],
+        "b": {
+            "foo": "bar"
+        }
+    },
+    "after": {
+        "a": [
+            1, 2, 3
+        ],
+        "c": [
+            1, 2, 3
+        ],
+        "d": {
+            "foo": "bar"
+        }
+    },
+    "patch": [
+        { "op": "copy", "from": "/a", "path": "/c" },
+        { "op": "move", "from": "/b", "path": "/d" }
+    ]
+}, {
+    "name": "single move on duplicated values",
+    "before": {
+        "a": 1
+    },
+    "after": {
+        "b": 1,
+        "c": 1
+    },
+    "patch": [
+        { "op": "move", "from": "/a", "path": "/b" },
+        { "op": "add", "path": "/c", "value": 1 }
+    ]
+}, {
+    "name": "factorization does not drop sibling add with shared prefix",
+    "before": {
+        "key": {
+            "b": {
+                "$numberInt": "1"
+            }
+        },
+        "name": "b1"
+    },
+    "after": {
+        "key": {
+            "bb": {
+                "$numberInt": "1"
+            }
+        },
+        "name": "b1"
+    },
+    "patch": [
+        { "op": "move", "from": "/key/b", "path": "/key/bb" }
+    ]
+},{
+    "name": "impossible factorization",
+    "before": [
+        "foo",
+        "bar"
+    ],
+    "after": [
+        "foo",
+        "baz"
+    ],
+    "patch": [
+        { "op": "replace", "path": "/1", "value": "baz" }
+    ]
+}]

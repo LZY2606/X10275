@@ -1,0 +1,94 @@
+# Linux
+*~
+.Trash-*
+
+# Mac OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Folders
+_obj
+_test
+
+# Compiled Object files
+# Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+*.dll
+*.dylib
+
+# Executables
+*.exe
+*.exe~
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+# Cgo
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+# Go Tools
+*.test
+*.prof
+*.out
+_testmain.go
+
+# Dependency directories
+vendor/
+Godeps/
+
+# markdown-spellcheck
+.spelling
+
+# CI/CD
+benchstats
+.benchruns
+coverage.txt
+dist/
+*.txt
+
+# Editors
+.idea/
+
+# --- 依赖与构建产物（不进交付快照）---
+node_modules/
+bower_components/
+.pnp.*
+/build/
+out/
+target/
+.next/
+.nuxt/
+.svelte-kit/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+vendor/bundle/
+Pods/
+.gradle/
+.cargo/
+.env
+.env.*
+*.log
+coverage/
+.coverage
+.nyc_output/
+.cache/
+.parcel-cache/
+.vite/
+.turbo/
+*.tsbuildinfo
